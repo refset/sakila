@@ -1,0 +1,13 @@
+based on https://hub.docker.com/_/mariadb
+
+[source, bash]
+----
+docker pull mariadb
+docker network create some-network
+
+# change the host volume path as needed
+docker run --network some-network --name some-mariadb --env MARIADB_USER=example-user --env MARIADB_PASSWORD=my_cool_secret --env MARIADB_ROOT_PASSWORD=my-secret-pw -v ~/ghq/github.com/jOOQ/sakila/mysql-sakila-db:/docker-entrypoint-initdb.d mariadb:latest
+
+# separate terminal, password is my-secret-pw
+docker run -it --network some-network --rm mariadb mysql -hsome-mariadb -uroot -p
+----
